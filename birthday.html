@@ -1,0 +1,693 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Surprise!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header {
+            padding: 40px 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4rem;
+            text-shadow: 3px 3px 0 #ff6b6b, 6px 6px 0 #4ecdc4;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite alternate;
+        }
+
+        .friend-name {
+            font-size: 3rem;
+            color: #ffe66d;
+            text-shadow: 2px 2px 0 #ff6b6b;
+            margin: 20px 0;
+            animation: glow 2s infinite alternate;
+        }
+
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .balloons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .balloon {
+            width: 60px;
+            height: 80px;
+            border-radius: 50%;
+            position: relative;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        .balloon:before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 50px;
+            background: white;
+        }
+
+        .balloon:nth-child(1) {
+            background: #ff6b6b;
+            animation-delay: 0s;
+        }
+
+        .balloon:nth-child(2) {
+            background: #4ecdc4;
+            animation-delay: 0.5s;
+        }
+
+        .balloon:nth-child(3) {
+            background: #ffe66d;
+            animation-delay: 1s;
+        }
+
+        .balloon:nth-child(4) {
+            background: #ff9ff3;
+            animation-delay: 1.5s;
+        }
+
+        .balloon:nth-child(5) {
+            background: #6c5ce7;
+            animation-delay: 2s;
+        }
+
+        .cake-container {
+            margin: 40px auto;
+            position: relative;
+            width: 300px;
+            height: 200px;
+        }
+
+        .cake {
+            position: absolute;
+            width: 200px;
+            height: 80px;
+            background: #f8c291;
+            border-radius: 10px 10px 0 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cake:before {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 20px;
+            background: #e55039;
+            border-radius: 10px;
+            top: -10px;
+            left: -10px;
+        }
+
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 40px;
+            background: #fff;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .flame {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            background: #ff9f43;
+            border-radius: 50% 50% 20% 20%;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 1s infinite alternate;
+        }
+
+        .interactive-section {
+            margin: 40px 0;
+        }
+
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: #ff5252;
+        }
+
+        .surprise-box {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            display: none;
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border: 10px solid #ffe66d;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: swing 3s infinite ease-in-out;
+            transform-origin: top center;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #6c5ce7, #fd79a8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .photo-placeholder img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+}
+
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #ffe66d, 0 0 10px #ffe66d; }
+            100% { text-shadow: 0 0 20px #ffe66d, 0 0 30px #ff9f43; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .friend-name { font-size: 2rem; }
+            .message { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎉 Happy Birthday! 🎂</h1>
+            <div class="friend-name" id="friendName">[Friend's Name]</div>
+            
+            <div class="balloons">
+                <div class="balloon"></div>
+                <div class="balloon"></div>
+                <div class="balloon"></div>
+                <div class="balloon"></div>
+                <div class="balloon"></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="birthday-card">
+                <p class="message" id="birthdayMessage">
+                    Wishing you the most amazing birthday filled with joy, laughter, and all the things you love the most!
+                </p>
+                
+                <div class="cake-container">
+                    <div class="cake">
+                        <div class="candle">
+                            <div class="flame"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="message">
+                   You’re such an amazing friend! I’m so lucky to have you in my life. Hope your birthday is as awesome as you are!
+                </p>
+            </div>
+
+            <div class="interactive-section">
+                <button class="btn" id="surpriseBtn">Click for a Surprise! 🎁</button>
+                <button class="btn" id="fireworksBtn">Launch Fireworks! 🎆</button>
+              
+                <div class="surprise-box" id="surpriseBox">
+                    <h2>Special Message Just For You! 💌</h2>
+                    <p id="personalMessage">You’re such an amazing friend! I’m so lucky to have you in my life. Hope your birthday is as awesome as you are!</p>
+                    
+                    <div class="photo-frame">
+                        <div class="photo-placeholder">
+                            <img src="basu.jpg" alt="Photo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // DOM Elements
+        const friendName = document.getElementById('friendName');
+        const birthdayMessage = document.getElementById('birthdayMessage');
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const fireworksBtn = document.getElementById('fireworksBtn');
+        const musicBtn = document.getElementById('musicBtn');
+        const surpriseBox = document.getElementById('surpriseBox');
+        const personalMessage = document.getElementById('personalMessage');
+
+        // Personalize the page
+        const friend = prompt("Enter your  name:", "Basavaraj");
+        if (friend) {
+            friendName.textContent = friend;
+            birthdayMessage.textContent = `Happy Birthday ${friend}! Wishing you the most amazing day filled with joy, laughter, and all the things you love the most!`;
+            personalMessage.textContent = `Dear ${friend}, you're one of the most amazing friend I know! Thanks for being such a wonderful friend. Hope your birthday is as special as you are!`;
+        }
+
+        // Add custom message
+      //   const customMsg = prompt("Add a personal message for your friend:");
+      //   if (customMsg) {
+      //       personalMessage.textContent += ` ${customMsg}`;
+      //   }
+
+        // Surprise Button
+        surpriseBtn.addEventListener('click', function() {
+            surpriseBox.style.display = 'block';
+            createConfetti();
+            
+            // Add a fun animation to the button
+            this.style.animation = 'bounce 0.5s ease';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 500);
+        });
+
+        // Fireworks Button
+        fireworksBtn.addEventListener('click', function() {
+            createFireworks();
+        });
+
+      //   Music Button
+        musicBtn.addEventListener('click', function() {
+            // In a real implementation, you would play audio here
+            alert("🎵 Birthday music would play here! 🎵");
+            
+            // Visual feedback
+            this.style.background = '#4ecdc4';
+            setTimeout(() => {
+                this.style.background = '#ff6b6b';
+            }, 1000);
+        });
+
+        // Confetti Effect
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ff9ff3', '#6c5ce7'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                document.body.appendChild(confetti);
+                
+                // Animate confetti
+                const animation = confetti.animate([
+                    { top: '-10px', opacity: 1, transform: `rotate(0deg) scale(1)` },
+                    { top: '100vh', opacity: 0.7, transform: `rotate(${Math.random() * 360}deg) scale(0.5)` }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+                });
+                
+                // Remove confetti after animation
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Fireworks Effect
+        function createFireworks() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFirework();
+                }, i * 100);
+            }
+        }
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.style.position = 'fixed';
+            firework.style.width = '10px';
+            firework.style.height = '10px';
+            firework.style.borderRadius = '50%';
+            firework.style.left = Math.random() * 100 + 'vw';
+            firework.style.top = Math.random() * 100 + 'vh';
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            firework.style.pointerEvents = 'none';
+            firework.style.zIndex = '9999';
+            document.body.appendChild(firework);
+            
+            // Animate firework
+            const animation = firework.animate([
+                { transform: 'scale(1)', opacity: 1 },
+                { transform: 'scale(3)', opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'ease-out'
+            });
+            
+            // Remove firework after animation
+            animation.onfinish = () => firework.remove();
+        }
+
+        // Add some random floating elements
+        function addFloatingElements() {
+            const emojis = ['🎈', '🎂', '🎁', '🎉', '✨', '🥳', '🎊'];
+            
+            for (let i = 0; i < 10; i++) {
+                const floatElement = document.createElement('div');
+                floatElement.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                floatElement.style.position = 'fixed';
+                floatElement.style.fontSize = Math.random() * 30 + 20 + 'px';
+                floatElement.style.left = Math.random() * 100 + 'vw';
+                floatElement.style.top = Math.random() * 100 + 'vh';
+                floatElement.style.opacity = '0.7';
+                floatElement.style.zIndex = '-1';
+                floatElement.style.pointerEvents = 'none';
+                document.body.appendChild(floatElement);
+                
+                // Animate floating
+                floatElement.animate([
+                    { transform: 'translateY(0px) rotate(0deg)' },
+                    { transform: `translateY(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)` }
+                ], {
+                    duration: Math.random() * 5000 + 5000,
+                    direction: 'alternate',
+                    iterations: Infinity,
+                    easing: 'ease-in-out'
+                });
+            }
+        }
+
+        // Initialize floating elements
+        addFloatingElements();
+    </script>
+</body>
+</html>
+
+<script>
+// Add these new functions to your existing JavaScript
+
+// Floating hearts animation
+function createHearts() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.style.position = 'fixed';
+            heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100%';
+            heart.style.opacity = '0.8';
+            heart.style.zIndex = '999';
+            heart.style.pointerEvents = 'none';
+            document.body.appendChild(heart);
+            
+            const animation = heart.animate([
+                { top: '100%', opacity: 1 },
+                { top: Math.random() * 80 + '%', opacity: 0.8 },
+                { top: '-10%', opacity: 0 }
+            ], {
+                duration: 3000 + Math.random() * 2000,
+                easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+            });
+            
+            animation.onfinish = () => heart.remove();
+        }, i * 200);
+    }
+}
+
+// Sparkle effect on text
+function addTextSparkles() {
+    const elements = [friendName, birthdayMessage];
+    elements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
+            createTextSparkles(this);
+        });
+    });
+}
+
+function createTextSparkles(element) {
+    const rect = element.getBoundingClientRect();
+    for (let i = 0; i < 10; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.innerHTML = '✨';
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+        sparkle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+        sparkle.style.fontSize = '20px';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '1000';
+        document.body.appendChild(sparkle);
+        
+        sparkle.animate([
+            { transform: 'scale(0) rotate(0deg)', opacity: 0 },
+            { transform: 'scale(1) rotate(180deg)', opacity: 1 },
+            { transform: 'scale(0) rotate(360deg)', opacity: 0 }
+        ], {
+            duration: 1000,
+            easing: 'ease-out'
+        }).onfinish = () => sparkle.remove();
+    }
+}
+
+// Bouncing cake animation
+function makeCakeBounce() {
+    const cake = document.querySelector('.cake-container');
+    cake.style.animation = 'bounce 2s ease-in-out';
+    setTimeout(() => {
+        cake.style.animation = '';
+    }, 2000);
+}
+
+// Color changing background
+function startBackgroundColorCycle() {
+    let hue = 0;
+    setInterval(() => {
+        document.body.style.background = `linear-gradient(135deg, hsl(${hue}, 70%, 50%) 0%, hsl(${hue + 60}, 70%, 50%) 100%)`;
+        hue = (hue + 1) % 360;
+    }, 100);
+}
+
+// Typing effect for messages
+function typeWriter(element, text, speed = 50) {
+    let i = 0;
+    element.innerHTML = '';
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
+// Rain of emojis
+function createEmojiRain() {
+    const emojis = ['🎉', '🎂', '🎁', '🎈', '✨', '🥳', '🎊', '💝', '🌟', '⭐'];
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const emoji = document.createElement('div');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.position = 'fixed';
+            emoji.style.fontSize = Math.random() * 30 + 20 + 'px';
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.top = '-50px';
+            emoji.style.opacity = '0.8';
+            emoji.style.zIndex = '999';
+            emoji.style.pointerEvents = 'none';
+            document.body.appendChild(emoji);
+            
+            emoji.animate([
+                { top: '-50px', transform: 'rotate(0deg)' },
+                { top: '100vh', transform: 'rotate(360deg)' }
+            ], {
+                duration: 2000 + Math.random() * 3000,
+                easing: 'linear'
+            }).onfinish = () => emoji.remove();
+        }, i * 100);
+    }
+}
+
+// Add these event listeners to your existing buttons and elements
+
+// Add to surprise button
+surpriseBtn.addEventListener('click', function() {
+    createHearts();
+    createEmojiRain();
+});
+
+// Add to fireworks button
+fireworksBtn.addEventListener('click', function() {
+    makeCakeBounce();
+});
+
+// Initialize additional effects when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Add sparkles to text
+    addTextSparkles();
+    
+    // Start background color cycle (optional - uncomment if you want it)
+    // startBackgroundColorCycle();
+    
+    // Add typing effect to messages (optional)
+    setTimeout(() => {
+        typeWriter(birthdayMessage, birthdayMessage.textContent, 30);
+    }, 1000);
+});
+
+// Add floating gifts animation
+function createFloatingGifts() {
+    const gifts = ['🎁', '🎀', '🎊', '💝'];
+    for (let i = 0; i < 8; i++) {
+        const gift = document.createElement('div');
+        gift.textContent = gifts[Math.floor(Math.random() * gifts.length)];
+        gift.style.position = 'fixed';
+        gift.style.fontSize = '40px';
+        gift.style.left = Math.random() * 100 + 'vw';
+        gift.style.top = Math.random() * 100 + 'vh';
+        gift.style.opacity = '0.7';
+        gift.style.zIndex = '-1';
+        gift.style.pointerEvents = 'none';
+        gift.style.animation = `float ${6 + Math.random() * 4}s infinite ease-in-out`;
+        document.body.appendChild(gift);
+    }
+}
+
+// Initialize floating gifts
+createFloatingGifts();
+
+// Add pulse animation to buttons
+const buttons = document.querySelectorAll('.btn');
+buttons.forEach(button => {
+    button.style.animation = 'pulse 2s infinite';
+});
+
+// Add the pulse keyframes to your CSS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
+</script>
